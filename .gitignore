@@ -1,3 +1,6 @@
 flatten/
 __pycache__/
 .idea/
+
+*.lock.hcl
+.terraform
