@@ -16,11 +16,8 @@ def mrfs_from_idx(index_loc):
                 and event == 'string'
                 and 'in-network' in value
             ):
-                in_network_file_urls.append(value)
+                yield value
 
-    print(f'Found: {len(in_network_file_urls)} in-network files.')
-    print(in_network_file_urls)
-    return in_network_file_urls
-
-index_loc = 'https://www.allegiancecosttransparency.com/2022-07-01_LOGAN_HEALTH_index.json'
-mrfs_from_idx(index_loc)
+index_loc = 'https://antm-pt-prod-dataz-nogbd-nophi-us-east1.s3.amazonaws.com/anthem/2022-12-01_anthem_index.json.gz'
+for url in mrfs_from_idx(index_loc):
+    print(url)
