@@ -11,7 +11,7 @@ from multiprocessing import Pool
 import os
 
 from mrfutils import import_csv_to_set, json_mrf_to_csv, InvalidMRF
-from idxutils import gen_in_network_links
+from idxutils import get_unique_in_network_urls 
 
 import mysql.connector as connector
 
@@ -23,21 +23,14 @@ def perform_task(url, code_set, npi_set):
         json_mrf_to_csv(
             loc = url,
             cnx = cnx,
+            out_dir = None,
             code_filter = code_set,
             npi_filter = npi_set
         )
     except InvalidMRF as e:
-        log.critical(e)
+        logging.critical(e)
     except Exception as e:
-        log.critical(e)
-
-def get_urls(toc_url):
-    seen_urls = dict()
-
-    for url in gen_in_network_links(toc_url):
-        seen_urls[url] = True
-
-    return list(seen_urls.keys())
+        logging.critical(e)
 
 def main():
     logging.basicConfig()
@@ -58,8 +51,7 @@ def main():
     else:
         npi_set = None
 
-    urls = get_urls('https://antm-pt-prod-dataz-nogbd-nophi-us-east1.s3.amazonaws.com/anthem/2022-12-01_anthem_index.json.gz')
-    urls = urls[:16] # TODO: remove this when it works good on small scale
+    urls = get_unique_in_network_urls('https://antm-pt-prod-dataz-nogbd-nophi-us-east1.s3.amazonaws.com/anthem/2022-12-01_anthem_index.json.gz')
 
     pool = Pool(16)
     partial_perform_task = functools.partial(perform_task, code_set=code_set, npi_set=npi_set)
