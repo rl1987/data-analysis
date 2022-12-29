@@ -198,6 +198,7 @@ def _write_table_to_db(rows, tablename, cnx):
         cols = ", ".join(fieldnames)
         binds = ", ".join(list(map(lambda f: "%(" + f + ")s", fieldnames)))
         sql = f"INSERT INTO {tablename} ({cols}) VALUES ({binds});"
+        log.debug(sql)
         cursor.execute(sql, row)
         cursor.close()
 
@@ -626,7 +627,7 @@ def _local_optimization(in_network_items, parser, code_filter):
 
     if code and code_type and code_filter:
         if (code_type, str(code)) not in code_filter:
-            log.debug(f'Skipping {code_type} {code}: filtered out')
+            #log.debug(f'Skipping {code_type} {code}: filtered out')
             _ffwd(parser, 'in_network.item', 'end_map')
             in_network_items.value.pop()
             in_network_items.containers.pop()
@@ -634,7 +635,7 @@ def _local_optimization(in_network_items, parser, code_filter):
 
     arrangement = item.get('negotiation_arrangement')
     if arrangement and arrangement != 'ffs':
-        log.debug(f"Skipping item: arrangement: {arrangement} not 'ffs'")
+        #log.debug(f"Skipping item: arrangement: {arrangement} not 'ffs'")
         _ffwd(parser, 'in_network.item', 'end_map')
         in_network_items.value.pop()
         in_network_items.containers.pop()
@@ -836,7 +837,8 @@ def json_mrf_to_csv(
     name, so if the name is different, the index will be wrong.
     """
 
-    make_dir(out_dir)
+    if out_dir is not None:
+        make_dir(out_dir)
     filename_hash = _filename_hash(loc)
 
     content = MRFContent(loc, npi_filter, code_filter)
