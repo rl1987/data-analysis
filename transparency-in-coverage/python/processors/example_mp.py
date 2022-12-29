@@ -11,6 +11,7 @@ from multiprocessing import Pool
 import os
 
 from mrfutils import import_csv_to_set, json_mrf_to_csv, InvalidMRF
+from idxutils import gen_in_network_links
 
 import mysql.connector as connector
 
@@ -30,13 +31,10 @@ def perform_task(url, code_set, npi_set):
     except Exception as e:
         log.critical(e)
 
-def make_out_dirname(out_dir, url):
-    return os.path.join(out_dir, hashlib.sha1(url.encode('utf-8')).hexdigest())
-
 def get_urls(toc_url):
     seen_urls = dict()
 
-    for url in get_in_network_links(toc_url):
+    for url in gen_in_network_links(toc_url):
         seen_urls[url] = True
 
     return list(seen_urls.keys())
@@ -51,7 +49,6 @@ def main():
     parser.add_argument('-n', '--npis')
 
     args = parser.parse_args()
-    out_dir = args.out
     if args.codes:
         code_set = import_csv_to_set(args.codes)
     else:
