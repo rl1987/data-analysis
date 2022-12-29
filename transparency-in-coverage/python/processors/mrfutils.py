@@ -197,7 +197,7 @@ def _write_table_to_db(rows, tablename, cnx):
         # Based on: https://stackoverflow.com/a/62266632/1044147
         cols = ", ".join(fieldnames)
         binds = ", ".join(list(map(lambda f: "%(" + f + ")s", fieldnames)))
-        sql = f"INSERT INTO {tablename} ({cols}) VALUES ({binds});"
+        sql = f"REPLACE INTO {tablename} ({cols}) VALUES ({binds});"
         log.debug(sql)
         cursor.execute(sql, row)
         cursor.close()
