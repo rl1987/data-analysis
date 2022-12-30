@@ -33,14 +33,12 @@ def perform_task(url, code_set, npi_set):
     except Exception as e:
         logging.critical(e)
 
-def file_not_taken(cnx, url):
-    fh = _filename_hash(url)
-
+def file_not_taken(url, cnx):
     cursor = cnx.cursor()
 
-    sql = 'SELECT COUNT(*) FROM `plans_files` WHERE `filename_hash` = "{}";'.format(fh)
+    sql = 'SELECT COUNT(*) FROM `files` WHERE `url` = "{}";'.format(url)
     
-    logging.debug(sql)
+    print(sql)
     cursor.execute(sql)
     count = cursor.fetchone()[0]
     cursor.close()
@@ -70,11 +68,11 @@ def main():
     # https://dev.mysql.com/doc/connector-python/en/connector-python-example-connecting.html
     cnx = connector.connect(user='rl', password='trustno1', host='127.0.0.1', database='quest')
 
-    urls = get_unique_in_network_urls('https://antm-pt-prod-dataz-nogbd-nophi-us-east1.s3.amazonaws.com/anthem/2022-12-01_anthem_index.json.gz')
+    urls = get_unique_in_network_urls('2022-12-01_anthem_index.json.gz')
 
-    logging.info("Got {} MRF URLs - filtering".format(len(urls)))
-    urls = list(filter(file_not_taken, urls))
-    logging.info("Got {} MRF URLs after filtering".format(len(urls)))
+    print("Got {} MRF URLs - filtering".format(len(urls)))
+    urls = list(filter(functools.partial(file_not_taken, cnx=cnx), urls))
+    print("Got {} MRF URLs after filtering".format(len(urls)))
 
     cnx.close()
 
