@@ -22,7 +22,7 @@ resource "digitalocean_droplet" "server" {
   image     = "debian-11-x64"
   name      = "dhdb-quest"
   region    = "sfo3"
-  size      = "c-8-16gib"
+  size      = "c-8"
   ssh_keys  = [ for key in data.digitalocean_ssh_keys.keys.ssh_keys: key.fingerprint ]
   user_data = file("provision.sh")
 
