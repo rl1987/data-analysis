@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-# python3 example_mp.py -c quest/week0/codes_prelim.csv -n quest/week0/npis.csv
+# python3 example_mp.py -c quest/codes.csv -n quest/npis.csv
 
 import argparse
 import functools
@@ -40,6 +40,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('-c', '--codes')
     parser.add_argument('-n', '--npis')
+    parser.add_argument('-p', '--pool-size', type=int, default=16)
 
     args = parser.parse_args()
     if args.codes:
@@ -53,7 +54,7 @@ def main():
 
     urls = get_unique_in_network_urls('https://antm-pt-prod-dataz-nogbd-nophi-us-east1.s3.amazonaws.com/anthem/2022-12-01_anthem_index.json.gz')
 
-    pool = Pool(16)
+    pool = Pool(args.pool_size)
     partial_perform_task = functools.partial(perform_task, code_set=code_set, npi_set=npi_set)
     pool.map(partial_perform_task, urls)
 
