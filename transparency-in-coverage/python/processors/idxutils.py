@@ -19,11 +19,8 @@ def gen_in_network_links(index_loc,):
                 and event == 'string'
                 and 'in-network' in value
             ):
-                log.debug(value)
                 yield value
                 count += 1
-
-    log.debug(f'Found: {count} in-network files.')
 
 def get_unique_in_network_urls(toc_url, limit=None):
     seen_urls = dict()

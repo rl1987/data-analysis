@@ -9,8 +9,9 @@ import logging
 import uuid
 from multiprocessing import Pool
 import os
+from urllib.parse import urlparse
 
-from mrfutils import import_csv_to_set, json_mrf_to_csv, InvalidMRF
+from mrfutils import import_csv_to_set, json_mrf_to_csv, InvalidMRF, _filename_hash
 from idxutils import get_unique_in_network_urls 
 
 import mysql.connector as connector
@@ -32,6 +33,18 @@ def perform_task(url, code_set, npi_set):
     except Exception as e:
         logging.critical(e)
 
+def file_not_taken(cnx, url):
+    fh = _filename_hash(url)
+
+    cursor = cnx.cursor()
+
+    sql = 'SELECT COUNT(*) FROM `plans_files` WHERE `filename_hash` = "{}";'.format(fh)
+
+    cursor.execute()
+    count = cursor.fetchone()[0]
+
+    return count == 0
+
 def main():
     logging.basicConfig()
     log = logging.getLogger('mrfutils')
@@ -52,7 +65,14 @@ def main():
     else:
         npi_set = None
 
+    # https://dev.mysql.com/doc/connector-python/en/connector-python-example-connecting.html
+    cnx = connector.connect(user='rl', password='trustno1', host='127.0.0.1', database='quest')
+
     urls = get_unique_in_network_urls('https://antm-pt-prod-dataz-nogbd-nophi-us-east1.s3.amazonaws.com/anthem/2022-12-01_anthem_index.json.gz')
+
+    logging.info("Got {} MRF URLs - filtering".format(len(urls)))
+    urls = list(filter(file_not_taken, urls))
+    logging.info("Got {} MRF URLs after filtering".format(len(urls)))
 
     pool = Pool(args.pool_size)
     partial_perform_task = functools.partial(perform_task, code_set=code_set, npi_set=npi_set)
