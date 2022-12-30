@@ -33,6 +33,8 @@ def perform_task(url, code_set, npi_set):
     except Exception as e:
         logging.critical(e)
 
+    cnx.close()
+
 def file_not_taken(url, cnx):
     cursor = cnx.cursor()
 
