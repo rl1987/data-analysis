@@ -27,6 +27,10 @@ pushd /root/src || exit
 git clone https://github.com/rl1987/data-analysis.git
 popd || exit
 
+pushd /root/src/data-analysis/transparency-in-coverage/python/processors || exit
+wget https://antm-pt-prod-dataz-nogbd-nophi-us-east1.s3.amazonaws.com/anthem/2022-12-01_anthem_index.json.gz
+popd || exit
+
 curl -fsSL https://deb.nodesource.com/setup_18.x -o /tmp/install_node.sh
 bash /tmp/install_node.sh
 apt-get install -y gcc g++ make nodejs

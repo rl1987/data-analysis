@@ -67,7 +67,8 @@ def main():
 
     # https://dev.mysql.com/doc/connector-python/en/connector-python-example-connecting.html
     cnx = connector.connect(user='rl', password='trustno1', host='127.0.0.1', database='quest')
-
+    
+    # wget https://antm-pt-prod-dataz-nogbd-nophi-us-east1.s3.amazonaws.com/anthem/2022-12-01_anthem_index.json.gz
     urls = get_unique_in_network_urls('2022-12-01_anthem_index.json.gz')
 
     print("Got {} MRF URLs - filtering".format(len(urls)))
