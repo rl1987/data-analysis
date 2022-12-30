@@ -39,9 +39,11 @@ def file_not_taken(cnx, url):
     cursor = cnx.cursor()
 
     sql = 'SELECT COUNT(*) FROM `plans_files` WHERE `filename_hash` = "{}";'.format(fh)
-
-    cursor.execute()
+    
+    logging.debug(sql)
+    cursor.execute(sql)
     count = cursor.fetchone()[0]
+    cursor.close()
 
     return count == 0
 
@@ -73,6 +75,8 @@ def main():
     logging.info("Got {} MRF URLs - filtering".format(len(urls)))
     urls = list(filter(file_not_taken, urls))
     logging.info("Got {} MRF URLs after filtering".format(len(urls)))
+
+    cnx.close()
 
     pool = Pool(args.pool_size)
     partial_perform_task = functools.partial(perform_task, code_set=code_set, npi_set=npi_set)
