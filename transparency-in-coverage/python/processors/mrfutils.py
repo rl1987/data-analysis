@@ -366,17 +366,7 @@ def write_in_network_item(
     code_hash = code_row['code_hash']
 
     for rate in in_network_item['negotiated_rates']:
-        prices = rate['negotiated_prices']
         provider_groups = rate['provider_groups']
-
-        price_rows = _make_price_rows(prices, code_hash, filename_hash)
-
-        if out_dir is not None:
-            _write_table(price_rows, 'prices', out_dir)
-
-        if cnx is not None:
-            _write_table_to_db(price_rows, 'prices', cnx)
-
         provider_group_rows = _make_provider_group_rows(provider_groups)
 
         if out_dir is not None:
@@ -384,6 +374,15 @@ def write_in_network_item(
 
         if cnx is not None:
             _write_table_to_db(provider_group_rows, 'provider_groups', cnx)
+
+        prices = rate['negotiated_prices']
+        price_rows = _make_price_rows(prices, code_hash, filename_hash)
+
+        if out_dir is not None:
+            _write_table(price_rows, 'prices', out_dir)
+
+        if cnx is not None:
+            _write_table_to_db(price_rows, 'prices', cnx)
 
         prices_provider_group_rows = _make_prices_provider_groups_rows(price_rows, provider_group_rows)
 
@@ -410,12 +409,6 @@ def write_plan(
 
     file_row = _make_file_row(loc, url)
 
-    if out_dir is not None:
-        _write_table(file_row, 'files', out_dir)
-
-    if cnx is not None:
-        _write_table_to_db(file_row, 'files', cnx)
-
     plan_row = _make_plan_row(plan)
 
     if out_dir is not None:
@@ -423,6 +416,12 @@ def write_plan(
 
     if cnx is not None:
         _write_table_to_db(plan_row, 'plans', cnx)
+
+    if out_dir is not None:
+        _write_table(file_row, 'files', out_dir)
+
+    if cnx is not None:
+        _write_table_to_db(file_row, 'files', cnx)
 
     plan_file_row = _make_plan_file_row(plan_row, file_row)
 
@@ -844,6 +843,14 @@ def json_mrf_to_csv(
     content = MRFContent(loc, npi_filter, code_filter)
     content.start()
 
+    write_plan(
+        plan = content.plan,
+        loc = loc,
+        url = url if url else loc,
+        cnx = cnx,
+        out_dir = out_dir
+    )
+
     for in_network_item in content.in_network_items:
         write_in_network_item(
             in_network_item = in_network_item,
@@ -852,10 +859,3 @@ def json_mrf_to_csv(
             out_dir = out_dir
         )
 
-    write_plan(
-        plan = content.plan,
-        loc = loc,
-        url = url if url else loc,
-        cnx = cnx,
-        out_dir = out_dir
-    )
