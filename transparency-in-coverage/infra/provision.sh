@@ -27,8 +27,7 @@ pushd /root/src || exit
 git clone https://github.com/rl1987/data-analysis.git
 popd || exit
 
-pushd /root || exit
-wget https://raw.githubusercontent.com/pry0cc/axiom/master/interact/axiom-configure
+cd /root || exit
 chmod +x axiom-configure
-DEBIAN_FRONTEND=noninteractive printf "\n1\nn\ndo\ny\n$(cat do_token.txt)\nsfo3\n\n\n\n\nquest\nbarebones\n\n" | ./axiom-configure
-popd || exit
+export HOME=/root
+printf "\n1\nn\ndo\ny\n$(cat do_token.txt)\nsfo3\n\n\n\n\nquest\nbarebones\n\n\n" | ./axiom-configure

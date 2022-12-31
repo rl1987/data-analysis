@@ -23,7 +23,7 @@ resource "digitalocean_droplet" "server" {
   name      = "dhdb-quest"
   region    = "sfo3"
   size      = "s-8vcpu-16gb"
-  ssh_keys  = [ for key in data.digitalocean_ssh_keys.keys.ssh_keys: key.fingerprint ]
+  ssh_keys  = [for key in data.digitalocean_ssh_keys.keys.ssh_keys : key.fingerprint]
   user_data = file("provision.sh")
 
   connection {
@@ -42,6 +42,11 @@ resource "digitalocean_droplet" "server" {
   provisioner "file" {
     source      = "do_token.txt"
     destination = "/root/do_token.txt"
+  }
+
+  provisioner "file" {
+    source      = "axiom-configure"
+    destination = "/root/axiom-configure"
   }
 }
 
