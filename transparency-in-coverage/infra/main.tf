@@ -38,6 +38,11 @@ resource "digitalocean_droplet" "server" {
     source      = "~/.dolt"
     destination = "/root"
   }
+
+  provisioner "file" {
+    source      = "do_token.txt"
+    destination = "/root/do_token.txt"
+  }
 }
 
 output "server_ip" {
