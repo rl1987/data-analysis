@@ -25,6 +25,8 @@ mkdir /root/src
 
 pushd /root/src || exit
 git clone https://github.com/rl1987/data-analysis.git
+git fetch
+git checkout axiom
 popd || exit
 
 cd /root || exit
