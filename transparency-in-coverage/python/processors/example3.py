@@ -58,7 +58,7 @@ def get_filename_hash(url):
     o = urlparse(url)
     path = o.path
     filename = path.split('/')[-1]
-    return _file_name_hash(filename)
+    return _filename_hash(filename)
 
 def main():
     parser = argparse.ArgumentParser(
