@@ -86,7 +86,6 @@ def main():
         log.info("Did not pass URL or input file, processing example data")
         idx_url = "https://www.allegiancecosttransparency.com/2022-07-01_LOGAN_HEALTH_index.json"
         # anthem index url:
-        # idx_url = 'https://antm-pt-prod-dataz-nogbd-nophi-us-east1.s3.amazonaws.com/anthem/2022-12-01_anthem_index.json.gz'
         targets_list.append(idx_url)
 
     rates_urls = []
