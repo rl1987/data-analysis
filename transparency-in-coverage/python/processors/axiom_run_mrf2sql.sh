@@ -4,7 +4,7 @@ set -x
 
 cp mrf2sql.json ~/.axiom/modules/
 
-axiom-fleet axiom-quest -i 8
+axiom-fleet axiom-quest -i 16
 
 axiom-exec --fleet axiom-quest "sudo apt-get remove -y python3.8 && sudo apt-get install -y python3.9 python3.9-distutils"
 axiom-exec --fleet axiom-quest "wget https://bootstrap.pypa.io/get-pip.py && python3.9 get-pip.py"
