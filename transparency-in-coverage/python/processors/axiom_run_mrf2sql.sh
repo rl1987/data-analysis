@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -x
+
 cp mrf2sql.json ~/.axiom/modules/
 
 axiom-fleet axiom-quest -i 8
@@ -15,7 +17,9 @@ python3 example3.py -u https://antm-pt-prod-dataz-nogbd-nophi-us-east1.s3.amazon
 cat in_network_urls.txt | sort | uniq > urls_uniq.txt
 
 axiom-scan urls_uniq.txt -m mrf2sql -o dump.sql
-
-# TODO: import dump.sql into Dolt
-
 axiom-rm -f "axiom-quest*"
+
+cp dump.sql ~/data/quest/
+pushd ~/data/quest || exit
+cat dump.sql | dolt sql
+popd || exit
