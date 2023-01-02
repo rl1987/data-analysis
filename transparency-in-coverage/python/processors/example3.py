@@ -9,11 +9,12 @@ import argparse
 import logging
 import sys
 import time
+from urllib.parse import urlparse
 
 import ijson
 from tqdm import tqdm
 
-from mrfutils import InvalidMRF, JSONOpen
+from mrfutils import InvalidMRF, JSONOpen, _filename_hash
 
 
 logging.basicConfig()
@@ -53,6 +54,11 @@ def mrfs_from_idx(index_loc):
             ):
                 yield value
 
+def get_filename_hash(url):
+    o = urllib.parse(url)
+    path = o.path
+    filename = path.split('/')[-1]
+    return _file_name_hash(filename)
 
 def main():
     parser = argparse.ArgumentParser(
@@ -87,12 +93,17 @@ def main():
         idx_url = "https://www.allegiancecosttransparency.com/2022-07-01_LOGAN_HEALTH_index.json"
         # anthem index url:
         targets_list.append(idx_url)
-
+    
+    seen_name_hashes = dict()
     rates_urls = []
     for url in targets_list:
         for result in mrfs_from_idx(url):
-            # rates_urls.append(result)
-            fobj.write(f"{result.strip()}\n")
+            fn_hash = get_filename_hash(result)
+            if not fn_hash in seen_name_hashes:
+                print(result)
+                fobj.write(f"{result.strip()}\n")
+                seen_name_hashes[fn_hash] = True
+
     fobj.close()
     # Once finished, we have a big list of in-network rates URLs
     # print(f"[*] Finished fetching, collected {len(rates_urls)} in-network URLs in total")
