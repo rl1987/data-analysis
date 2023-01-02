@@ -23,6 +23,7 @@ import os
 from typing import Generator
 from pathlib import Path
 from urllib.parse import urlparse
+import zipfile
 
 import aiohttp
 import ijson
@@ -85,6 +86,16 @@ class JSONOpen(io.BufferedIOBase):
             self.r = requests.get(self.loc, stream=True)
             self.r.raw.decode_content = True
             self.f = self.r.raw
+
+        elif self.is_remote and self.suffix == ".zip":
+            self.r = requests.get(self.loc, stream=True)
+            z = zipfile.ZipFile(self.r.raw)
+            names = z.namelist()
+            if len(names) == 1:
+                z_f = z.open(name, 'r')
+                self.f = z_f
+            else:
+                return None
 
         elif self.suffix == ".json.gz":
             self.f = gzip.open(self.loc, "rb")
