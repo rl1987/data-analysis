@@ -89,8 +89,13 @@ class SQLDumpExporter(AbstractExporter):
 
     def write_row(self, tablename, row):
         for k in list(row.keys()):
-            if row.get(k) is None:
+            v = row.get(k)
+            if v is None:
                 del row[k]
+            
+            if '"' in v:
+                v = v.replace('"', '\\"')
+                row[k] = v
 
         fieldnames = list(row.keys())
         cols_comma_sep = ", ".join(fieldnames)
