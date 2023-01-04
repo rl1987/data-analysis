@@ -16,12 +16,9 @@ npi_filter = import_csv_to_set("test/npis.csv")
 
 p = Path(__file__).parent.absolute()
 
-urls = [
-    f"{p}/test/test_file_1.json",
-    f"{p}/test/test_file_2.json",  # provider references at end
-    f"{p}/test/test_file_3.json.gz",
-    f"{p}/test/test_file_4.json",  # should fail
-]
+in_f = open("urls_uniq.txt", "r")
+urls = in_f.read().strip().split('\n')
+in_f.close()
 
 exporter = SQLDumpExporter("dump.sql")
 exporter.start()
