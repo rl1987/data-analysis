@@ -19,5 +19,8 @@ axiom-rm -f "axiom-quest*"
 
 cp dump.sql ~/data/quest/
 pushd ~/data/quest || exit
-cat dump.sql | dolt sql
+for table in plans files plans_files codes provider_groups prices prices_provider_groups;
+do
+    cat dump.sql | grep "INTO $table" | dolt sql
+done
 popd || exit
