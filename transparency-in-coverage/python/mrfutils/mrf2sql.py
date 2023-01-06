@@ -3,10 +3,11 @@
 import csv
 from glob import glob
 import os
+import tempfile
 import sys
 import shutil
 
-from mrfutils.exporters import SQLDumpExporter
+from exporters import SQLDumpExporter
 from mrfutils import import_csv_to_set, json_mrf_to_csv
 
 def convert_csv_to_sql(csv_dir, output_file_path):
@@ -41,8 +42,8 @@ def main():
 
     script_dir = os.path.dirname(os.path.abspath(__file__))
 
-    code_filter = import_csv_to_set(os.path.join(script_dir, "test/codes.csv"))
-    npi_filter = import_csv_to_set(os.path.join(script_dir, "test/npis.csv"))
+    code_filter = import_csv_to_set(os.path.join(script_dir, "quest/codes.csv"))
+    npi_filter = import_csv_to_set(os.path.join(script_dir, "quest/npis.csv"))
 
     tmp_out_dir = tempfile.mkdtemp()
 
@@ -50,7 +51,6 @@ def main():
         try:
             print("Starting:", url)
             json_mrf_to_csv(
-                loc=url,
                 url=url,
                 npi_filter=npi_filter,
                 code_filter=code_filter,
@@ -58,6 +58,7 @@ def main():
             )
             print("Done:", url)
         except Exception as e:
+            print(e)
             print("Failed processing MRF at: {}".format(url))
     
     shutil.rmtree(tmp_out_dir)
