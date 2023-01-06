@@ -60,7 +60,9 @@ def main():
         except Exception as e:
             print(e)
             print("Failed processing MRF at: {}".format(url))
-    
+ 
+    convert_csv_to_sql(tmp_out_dir, output_file_path)
+
     shutil.rmtree(tmp_out_dir)
 
 
