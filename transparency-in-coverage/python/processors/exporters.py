@@ -103,8 +103,14 @@ class SQLDumpExporter(AbstractExporter):
         values = list(map(lambda f: '"' + str(row.get(f, "")) + '"', fieldnames))
         values_comma_sep = ", ".join(values)
 
-        sql = "INSERT IGNORE INTO {} ({}) VALUES ({});\n".format(
-            tablename, cols_comma_sep, values_comma_sep
+        update_comma_sep = []
+        for k in fieldnames:
+            update_comma_sep.append("{} = \"{}\"".format(k, row[k]))
+
+        update_comma_sep = ", ".join(update_comma_sep)
+
+        sql = "INSERT INTO {} ({}) VALUES ({}) ON DUPLICATE KEY UPDATE {};\n".format(
+            tablename, cols_comma_sep, values_comma_sep, update_comma_sep
         )
         self._out_f.write(sql)
 
