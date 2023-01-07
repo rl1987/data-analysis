@@ -33,10 +33,9 @@ dolt checkout main
 dolt pull upstream 
 dolt push
 
-for d in output_dir/ ; do
-    for table in plans files plans_files codes provider_groups prices prices_provider_groups;
-    do
-      dolt table import -u "$table" "output_dir/$d/$table.csv"
+for table in plans files plans_files codes provider_groups prices prices_provider_groups;do
+    for f in $(ls output_data/$table.*); do 
+        dolt table import -u "$table" --file-type=csv "$f"
     done
 done
 
@@ -46,5 +45,5 @@ dolt add .
 dolt commit -m "UHC data"
 dolt push -u origin "$branch_name"
 dolt checkout main
-rm -rf output_dir
+rm -rf output_data
 popd || exit
