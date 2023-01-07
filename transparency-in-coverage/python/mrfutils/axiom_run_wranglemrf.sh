@@ -14,8 +14,7 @@ popd || exit
 cp wranglemrf.json ~/.axiom/modules/
 
 python3 get_pending_mrf_urls.py > pending.txt
-python3 make_chunk.py pending.txt ~/data/quest > urls_uniq.txt
-cat urls_uniq.txt | head -n 32 > urls.txt # FIXME: remove this after testing
+python3 make_chunk.py pending.txt ~/data/quest > urls.txt
 
 axiom-fleet axiom-quest -i 32
 
