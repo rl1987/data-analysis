@@ -43,6 +43,7 @@ def main():
                     out_dir=out_dir
                 )
                 print("Done:", url)
+                break
             except InvalidMRF:
                 print("Invalid MRF at:", url)
                 break
