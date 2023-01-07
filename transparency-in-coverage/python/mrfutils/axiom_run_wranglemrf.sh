@@ -46,4 +46,5 @@ dolt add .
 dolt commit -m "UHC data"
 dolt push -u origin "$branch_name"
 dolt checkout main
+rm -rf output_dir
 popd || exit
