@@ -1,4 +1,0 @@
-[{
-    "command": "python3.9 ~/data-analysis/transparency-in-coverage/python/mrfutils/mrf2sql.py input output",
-    "ext": "txt"
-}]
