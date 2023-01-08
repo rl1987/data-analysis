@@ -4,7 +4,7 @@ set -x
 
 if [[ -d output_data ]]; then rm -rf output_data; fi
 
-pushd ~/data/quest || exit
+pushd /mnt/volume_sfo3_01/data/quest || exit
 dolt checkout main
 dolt remote add upstream dolthub/quest
 dolt pull upstream
@@ -14,7 +14,7 @@ popd || exit
 cp wranglemrf.json ~/.axiom/modules/
 
 python3 get_pending_mrf_urls.py > pending.txt
-python3 make_chunk.py pending.txt ~/data/quest > urls.txt
+python3 make_chunk.py pending.txt /mnt/volume_sfo3_01/data/quest > urls.txt
 
 axiom-fleet axiom-quest -i 32
 
@@ -26,8 +26,8 @@ axiom-exec --fleet axiom-quest "git clone https://github.com/rl1987/data-analysi
 axiom-scan urls.txt -m wranglemrf -o output_data
 axiom-rm -f "axiom-quest*"
 
-cp -R output_data ~/data/quest
-pushd ~/data/quest || exit
+cp -R output_data /mnt/volume_sfo3_01/data/quest
+pushd /mnt/volume_sfo3_01/data/quest || exit
 dolt checkout main
 dolt pull upstream 
 dolt push
