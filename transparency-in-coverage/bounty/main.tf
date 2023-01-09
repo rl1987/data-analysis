@@ -23,7 +23,6 @@ resource "digitalocean_volume" "vol" {
   name                    = "vol"
   size                    = 1024
   initial_filesystem_type = "ext4"
-
 }
 
 resource "digitalocean_droplet" "server" {
@@ -55,7 +54,7 @@ resource "digitalocean_droplet" "server" {
 
 resource "digitalocean_volume_attachment" "vol_to_server" {
   droplet_id = digitalocean_droplet.server.id
-  volume_id  = digitalocean_droplet.vol.id
+  volume_id  = digitalocean_volume.vol.id
 }
 
 output "server_ip" {
