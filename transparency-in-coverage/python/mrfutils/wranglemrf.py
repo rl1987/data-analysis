@@ -4,6 +4,7 @@ import csv
 from glob import glob
 import os
 import sys
+import shutil
 import uuid
 
 from exceptions import InvalidMRF
@@ -46,11 +47,13 @@ def main():
                 break
             except InvalidMRF:
                 print("Invalid MRF at:", url)
+                shutil.rmtree(out_dir)
                 break
             except Exception as e:
                 print(e)
                 print("Failed processing MRF at: {}".format(url))
                 tries_left -= 1
+                shutil.rmtree(out_dir)
 
 if __name__ == "__main__":
     main()
