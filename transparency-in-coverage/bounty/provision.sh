@@ -15,9 +15,9 @@ useradd do-agent --no-create-home --system
 curl -sSL https://repos.insights.digitalocean.com/install.sh -o /tmp/install.sh
 bash /tmp/install.sh
 
-mkdir /root/data
+mkdir /mnt/volume_sfo3_01/data
 
-pushd /root/data || exit
+pushd /mnt/volume_sfo3_01/data || exit
 dolt clone rl1987/quest
 popd || exit
 
