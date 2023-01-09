@@ -18,9 +18,17 @@ data "digitalocean_ssh_keys" "keys" {
   }
 }
 
+resource "digitalocean_volume" "vol" {
+  region                  = "sfo3"
+  name                    = "vol"
+  size                    = 1024
+  initial_filesystem_type = "ext4"
+
+}
+
 resource "digitalocean_droplet" "server" {
   image     = "debian-11-x64"
-  name      = "dhdb-quest"
+  name      = "volume-sfo3-01"
   region    = "sfo3"
   size      = "s-8vcpu-16gb"
   ssh_keys  = [for key in data.digitalocean_ssh_keys.keys.ssh_keys : key.fingerprint]
@@ -43,6 +51,11 @@ resource "digitalocean_droplet" "server" {
     source      = "do_token.txt"
     destination = "/root/do_token.txt"
   }
+}
+
+resource "digitalocean_volume_attachment" "vol_to_server" {
+  droplet_id = digitalocean_droplet.server.id
+  volume_id  = digitalocean_droplet.vol.id
 }
 
 output "server_ip" {
