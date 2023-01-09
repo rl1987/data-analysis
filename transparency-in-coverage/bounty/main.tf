@@ -20,14 +20,14 @@ data "digitalocean_ssh_keys" "keys" {
 
 resource "digitalocean_volume" "vol" {
   region                  = "sfo3"
-  name                    = "vol"
+  name                    = "volume-sfo3-01"
   size                    = 1024
   initial_filesystem_type = "ext4"
 }
 
 resource "digitalocean_droplet" "server" {
   image     = "debian-11-x64"
-  name      = "volume-sfo3-01"
+  name      = "dhdb-quest"
   region    = "sfo3"
   size      = "s-8vcpu-16gb"
   ssh_keys  = [for key in data.digitalocean_ssh_keys.keys.ssh_keys : key.fingerprint]
