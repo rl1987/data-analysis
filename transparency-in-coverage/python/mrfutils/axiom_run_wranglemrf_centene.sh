@@ -42,7 +42,7 @@ done
 branch_name="centene"
 dolt checkout -b "$branch_name"
 dolt add .
-dolt commit -m "UHC data"
+dolt commit -m "Centene data"
 dolt push -u origin "$branch_name"
 dolt checkout main
 rm -rf output_data
