@@ -11,7 +11,6 @@ dolt checkout main
 dolt remote add upstream dolthub/quest
 dolt pull upstream
 dolt push
-dolt gc &
 popd || exit
 
 cp wranglemrf.json ~/.axiom/modules/
@@ -47,5 +46,4 @@ dolt commit -m "UHC data"
 dolt push -u origin "$branch_name"
 dolt checkout main
 rm -rf output_data
-dolt gc &
 popd || exit
