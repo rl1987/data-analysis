@@ -15,10 +15,10 @@ useradd do-agent --no-create-home --system
 curl -sSL https://repos.insights.digitalocean.com/install.sh -o /tmp/install.sh
 bash /tmp/install.sh
 
-mkdir /mnt/volume_sfo3_01/data
+mkdir /root/data
 
-pushd /mnt/volume_sfo3_01/data || exit
-dolt clone rl1987/quest
+pushd /root/data || exit
+dolt clone rl1987/quest-small
 popd || exit
 
 mkdir /root/src
@@ -26,7 +26,7 @@ mkdir /root/src
 pushd /root/src || exit
 git clone https://github.com/rl1987/data-analysis.git
 git fetch
-git checkout quest_bounty
+git checkout quest_bounty_small
 popd || exit
 
 cd /root || exit
