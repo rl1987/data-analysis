@@ -25,7 +25,7 @@ def main():
     in_f.close()
 
     db = dolt.Dolt(dolt_db_dir)
-    sql = 'SELECT DISTINCT(url) FROM files WHERE url IS NOT NULL;'
+    sql = 'SELECT DISTINCT(url) FROM file WHERE url IS NOT NULL;'
 
     res = db.sql(sql, result_format="json")
     for row in res['rows']:
