@@ -9,7 +9,7 @@ curl -L https://github.com/dolthub/dolt/releases/latest/download/install.sh > /t
 dolt config --global --add user.email rimantas@keyspace.lt
 dolt config --global --add user.name "rl1987"
 
-pip3 install --upgrade requests ijson lxml tqdm aiohttp doltcli
+pip3 install --upgrade requests ijson lxml tqdm aiohttp doltcli pandas
 
 useradd do-agent --no-create-home --system
 curl -sSL https://repos.insights.digitalocean.com/install.sh -o /tmp/install.sh
