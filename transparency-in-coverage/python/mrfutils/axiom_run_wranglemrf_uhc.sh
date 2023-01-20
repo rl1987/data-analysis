@@ -3,6 +3,7 @@
 set -x
 
 if [[ -d output_data ]]; then rm -rf output_data; fi
+if [[ -d raw_output_data ]]; then rm -rf raw_output_data; fi
 
 pushd /root/data/quest-small || exit
 dolt checkout main
@@ -23,8 +24,11 @@ axiom-exec --fleet axiom-quest "wget https://bootstrap.pypa.io/get-pip.py && pyt
 axiom-exec --fleet axiom-quest "pip3 install --upgrade requests ijson lxml tqdm aiohttp"
 axiom-exec --fleet axiom-quest "git clone https://github.com/rl1987/data-analysis.git && cd data-analysis/ && git fetch && git checkout quest_small_bounty"
 
-axiom-scan urls.txt -m wranglemrf -o output_data
+axiom-scan urls.txt -m wranglemrf -o raw_output_data
 axiom-rm -f "axiom-quest*"
+
+mkdir output_data
+python3 unify_csv_files.py raw_output_data output_data
 
 cp -R output_data /root/data/quest-small
 pushd /root/data/quest-small || exit
@@ -33,9 +37,7 @@ dolt pull upstream
 dolt push
 
 for table in file insurer code price_metadata rate npi_rate; do
-    for f in $(ls output_data/$table.*); do 
-        dolt table import -u "$table" --file-type=csv "$f"
-    done
+    dolt table import -u "$table" "output_data/$table.csv"
 done
 
 branch_name=$(date --rfc-3339=seconds | sed 's/://g' | sed 's/\s/__/g' | sed 's/-/_/g' | cut -f1 -d '+')
