@@ -13,7 +13,7 @@ popd || exit
 
 cp wranglemrf.json ~/.axiom/modules/
 
-python3 get_pending_mrf_urls.py > pending.txt
+python3 get_pending_mrf_urls.py | anew > pending.txt
 python3 make_chunk.py pending.txt /root/data/quest-small > urls.txt
 
 axiom-fleet axiom-quest -i 64
