@@ -18,7 +18,7 @@ def gen_mrf_urls(pull_id):
     next_page_token = None
 
     for td in resp0.json().get("data", dict()).get("pullCommitDiff", dict()).get("tableDiffs", []):
-        if td.get("oldTable", dict()).get("tableName") != "files":
+        if td.get("oldTable", dict()).get("tableName") != "file":
             continue
 
         next_page_token = td.get("rowDiffs", dict()).get("nextPageToken")
@@ -27,7 +27,7 @@ def gen_mrf_urls(pull_id):
             if len(rd.get("added")) == 0:
                 continue
 
-            yield rd.get("added").get("columnValues")[-1].get("displayValue")
+            yield rd.get("added").get("columnValues")[1].get("displayValue")
 
     if next_page_token is None:
         return
@@ -55,7 +55,7 @@ def gen_mrf_urls(pull_id):
             if len(rd.get("added")) == 0:
                 continue
 
-            yield rd.get("added").get("columnValues")[-1].get("displayValue")
+            yield rd.get("added").get("columnValues")[1].get("displayValue")
 
         next_page_token = row_diffs.get("nextPageToken")
 
@@ -71,7 +71,7 @@ def main():
     }
 
     resp0 = requests.post('https://www.dolthub.com/graphql', json=json_data)
-    
+ 
     seen_urls = dict()
 
     for d in reversed(resp0.json().get("data", dict()).get("pulls", dict()).get("list", [])):
