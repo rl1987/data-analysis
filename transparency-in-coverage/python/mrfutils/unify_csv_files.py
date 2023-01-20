@@ -32,7 +32,7 @@ def main():
 
     for table_name in ["code", "file", "insurer", "npi_rate", "price_metadata", "rate"]:
         print("Unifying: {}".format(table_name))
-        unify(raw_output_dir, table_name)
+        unify(raw_output_dir, clean_output_dir, table_name)
 
 if __name__ == "__main__":
     main()
