@@ -6,7 +6,7 @@ import sys
 import doltcli as dolt
 import requests
 
-CHUNK_SIZE = 128
+CHUNK_SIZE = 256
 
 def main():
     if len(sys.argv) != 4:
