@@ -15,7 +15,7 @@ def unify(raw_output_dir, clean_output_dir, table_name):
         df = pd.read_csv(f, dtype='str')
         df.drop_duplicates(inplace=True)
 
-        big_df.append(df)
+        big_df = big_df.append(df)
         big_df.drop_duplicates(inplace=True)
 
     print(big_df)
