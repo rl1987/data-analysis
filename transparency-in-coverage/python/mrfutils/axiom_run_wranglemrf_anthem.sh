@@ -39,7 +39,7 @@ dolt pull upstream
 dolt push
 
 for table in file insurer code price_metadata rate npi_rate; do
-    dolt table import -u "$table" "output_data/$table.csv"
+    time -p dolt table import -u "$table" "output_data/$table.csv"
 done
 
 branch_name="anthem_$(date --rfc-3339=seconds | sed 's/://g' | sed 's/\s/__/g' | sed 's/-/_/g' | cut -f1 -d '+')"
