@@ -70,10 +70,13 @@ def process_url(url):
         "retries": 3 - tries_left
     }
 
-    out_f = open(os.path.join(out_dir, "telemetry.csv"), "w", encoding="utf-8")
+    telemetry_started = os.path.isfile(os.path.join(out_dir, "telemetry.csv", "a"))
+
+    out_f = open(os.path.join(out_dir, "telemetry.csv"), "a", encoding="utf-8")
 
     csv_writer = csv.DictWriter(out_f, fieldnames = list(row.keys()), lineterminator="\n")
-    csv_writer.writeheader()
+    if telemetry_started:
+        csv_writer.writeheader()
     csv_writer.writerow(row)
 
     out_f.close()
