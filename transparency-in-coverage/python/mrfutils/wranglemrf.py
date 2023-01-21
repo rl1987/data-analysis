@@ -52,7 +52,7 @@ def process_url(url):
             print("Invalid MRF at:", url)
             if os.path.isdir(out_dir):
                 shutil.rmtree(out_dir)
-            break
+            return
         except Exception as e:
             print(e)
             print("Failed processing MRF at: {}".format(url))
