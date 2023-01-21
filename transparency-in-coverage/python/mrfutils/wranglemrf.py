@@ -75,7 +75,7 @@ def process_url(url):
     out_f = open(os.path.join(out_dir, "telemetry.csv"), "a", encoding="utf-8")
 
     csv_writer = csv.DictWriter(out_f, fieldnames = list(row.keys()), lineterminator="\n")
-    if telemetry_started:
+    if not telemetry_started:
         csv_writer.writeheader()
     csv_writer.writerow(row)
 
