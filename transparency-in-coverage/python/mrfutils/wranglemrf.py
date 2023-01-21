@@ -7,7 +7,7 @@ import os
 import sys
 import shutil
 import uuid
-from multiprocesing import Pool
+from multiprocessing import Pool
 import multiprocessing
 
 from exceptions import InvalidMRF
