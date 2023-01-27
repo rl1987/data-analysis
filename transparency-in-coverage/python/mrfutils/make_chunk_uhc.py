@@ -52,7 +52,7 @@ def main():
         candidates = candidates[:CHUNK_SIZE]
 
     for c in candidates:
-        print(c[1])
+        print(c[0])
 
 if __name__ == "__main__":
     main()
