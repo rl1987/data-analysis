@@ -25,10 +25,13 @@ def main():
 
     db = dolt.Dolt(dolt_db_dir)
     sql = 'SELECT DISTINCT(url) FROM file WHERE url IS NOT NULL;'
-
-    res = db.sql(sql, result_format="json")
-    for row in res['rows']:
-        exclude.add(row.get('url)'))
+    
+    try:
+        res = db.sql(sql, result_format="json")
+        for row in res['rows']:
+            exclude.add(row.get('url)'))
+    except:
+        pass
 
     candidates = []
 
