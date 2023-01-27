@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 
-import random
 import sys
 
 import doltcli as dolt
@@ -31,7 +30,7 @@ def main():
     for row in res['rows']:
         exclude.add(row.get('url)'))
 
-    candidates = set()
+    candidates = []
 
     resp = requests.get("https://transparency-in-coverage.uhc.com/api/v1/uhc/blobs/")
 
@@ -39,12 +38,18 @@ def main():
         url = blob_dict.get("downloadUrl")
         if not "in-network" in url:
             continue
+        size = blob_dict.get("size")
 
         if not url in exclude:
-            candidates.add(url)
+            candidates.append((url, size))
+    
+    candidates = sorted(candidates, key=lambda t: t[1], reverse=True)
+    
+    if len(candidates) > CHUNK_SIZE:
+        candidates = candidates[:CHUNK_SIZE]
 
-    for url in random.sample(list(candidates), CHUNK_SIZE):
-        print(url)
+    for c in candidates:
+        print(c[1])
 
 if __name__ == "__main__":
     main()
