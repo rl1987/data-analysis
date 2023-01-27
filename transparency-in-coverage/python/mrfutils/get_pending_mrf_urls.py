@@ -18,6 +18,9 @@ def gen_mrf_urls(pull_id):
     next_page_token = None
 
     for td in resp0.json().get("data", dict()).get("pullCommitDiff", dict()).get("tableDiffs", []):
+        if td.get("oldTable") is None:
+            continue
+
         if td.get("oldTable", dict()).get("tableName") != "file":
             continue
 
