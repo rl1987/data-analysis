@@ -34,4 +34,4 @@ wget "https://raw.githubusercontent.com/pry0cc/axiom/master/interact/axiom-confi
 sed -i 's/openssh-server//' axiom-configure
 chmod +x axiom-configure
 export HOME=/root
-printf "\n1\nn\ndo\ny\n$(cat do_token.txt)\nsfo3\ns-2vcpu-2gb\n\n\n\nquest\nbarebones\n\n\n" | ./axiom-configure
+printf "\n1\nn\ndo\ny\n$(cat do_token.txt)\nsfo3\n\n\n\n\nquest\nbarebones\n\n\n" | ./axiom-configure
