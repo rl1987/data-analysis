@@ -18,7 +18,7 @@ bash /tmp/install.sh
 mkdir /root/data
 
 pushd /root/data || exit
-dolt clone rl1987/quest-v3
+dolt clone rl1987/quest-v4
 popd || exit
 
 mkdir /root/src
@@ -26,7 +26,7 @@ mkdir /root/src
 pushd /root/src || exit
 git clone https://github.com/rl1987/data-analysis.git
 git fetch
-git checkout quest_v3_bounty
+git checkout quest_v4_bounty
 popd || exit
 
 cd /root || exit
