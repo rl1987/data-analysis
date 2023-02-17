@@ -33,7 +33,7 @@ dolt checkout main
 dolt pull upstream 
 dolt push
 
-for table in file insurer code price_metadata rate npi_rate file_rate; do
+for table in file insurer code price_metadata rate npi_rate; do
     for f in $(ls output_data/$table.*); do 
         time -p nice -n -10 dolt table import -u "$table" --file-type=csv "$f"
     done
