@@ -6,9 +6,9 @@ set -x
 
 if [[ -d output_data ]]; then rm -rf output_data; fi
 
-pushd /root/data/quest-v3 || exit
+pushd /root/data/quest-v4 || exit
 dolt checkout main
-dolt remote add upstream dolthub/quest-v3
+dolt remote add upstream dolthub/quest-v4
 dolt pull upstream
 dolt push
 popd || exit
@@ -27,8 +27,8 @@ axiom-exec --fleet axiom-quest "git clone https://github.com/rl1987/data-analysi
 axiom-scan urls.txt -m wranglemrf -o output_data
 axiom-rm -f "axiom-quest*"
 
-cp -R output_data /root/data/quest-v3
-pushd /root/data/quest-v3 || exit
+cp -R output_data /root/data/quest-v4
+pushd /root/data/quest-v4 || exit
 dolt checkout main
 dolt pull upstream 
 dolt push

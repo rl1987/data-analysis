@@ -7,9 +7,9 @@ if [[ -d raw_output_data ]]; then rm -rf raw_output_data; fi
 
 if [ ! -f anthem_urls.txt ]; then python3 anthem_get_mrf_urls.py | grep bcbs > anthem_urls.txt; fi
 
-pushd /root/data/quest-small || exit
+pushd /root/data/quest-v4 || exit
 dolt checkout main
-dolt remote add upstream dolthub/quest-small
+dolt remote add upstream dolthub/quest-v4
 dolt pull upstream
 dolt push
 popd || exit
@@ -17,7 +17,7 @@ popd || exit
 cp wranglemrf.json ~/.axiom/modules/
 
 python3 get_pending_mrf_urls.py | anew > pending.txt
-python3 make_chunk_anthem.py pending.txt anthem_urls.txt /root/data/quest-small > urls.txt
+python3 make_chunk_anthem.py pending.txt anthem_urls.txt /root/data/quest-v4 > urls.txt
 
 axiom-fleet axiom-quest -i 64
 
@@ -32,8 +32,8 @@ axiom-rm -f "axiom-quest*"
 mkdir output_data
 python3 unify_csv_files.py raw_output_data output_data
 
-cp -R output_data /root/data/quest-small
-pushd /root/data/quest-small || exit
+cp -R output_data /root/data/quest-v4
+pushd /root/data/quest-v4 || exit
 dolt checkout main
 dolt pull upstream 
 dolt push
