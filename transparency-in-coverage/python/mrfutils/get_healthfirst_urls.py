@@ -1,12 +1,14 @@
 #!/usr/bin/python3
 
+from urllib.parse import urljoin
+
 import requests
 from lxml import html
 
 from idxutils import *
 
 def main():
-    page_url = "https://eusprdtransparencymrfp32.z13.web.core.windows.net/hphc"
+    page_url = "https://files.hfbenefits.com/transparancy-in-coverage/0070900"
 
     resp = requests.get(page_url)
 
@@ -15,6 +17,7 @@ def main():
     out_f = open("urls.txt", "w")
 
     for index_url in tree.xpath('//a[contains(@href, "index.json")]/@href'):
+        index_url = urljoin(resp.url, index_url)
         for url in gen_in_network_links(index_url):
             if url.endswith(".zip"):
                 continue
