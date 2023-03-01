@@ -38,8 +38,10 @@ dolt checkout main
 dolt pull upstream 
 dolt push
 
-for table in file insurer code price_metadata rate npi_rate; do
-    time -p dolt table import -u "$table" "output_data/$table.csv"
+for table in file insurer code price_metadata rate tin tin_rate_file npi_tin; do
+    for f in $(ls output_data/$table.*); do 
+        time -p nice -n -10 dolt table import -u "$table" --file-type=csv "$f"
+    done
 done
 
 branch_name="anthem_$(date --rfc-3339=seconds | sed 's/://g' | sed 's/\s/__/g' | sed 's/-/_/g' | cut -f1 -d '+')"
