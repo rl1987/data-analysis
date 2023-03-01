@@ -37,7 +37,9 @@ dolt pull upstream
 dolt push
 
 for table in file insurer code price_metadata rate tin tin_rate_file npi_tin; do
-    time -p dolt table import -u "$table" "output_data/$table.csv"
+    for f in $(ls output_data/$table.*); do 
+        time -p nice -n -10 dolt table import -u "$table" --file-type=csv "$f"
+    done
 done
 
 branch_name=$(date --rfc-3339=seconds | sed 's/://g' | sed 's/\s/__/g' | sed 's/-/_/g' | cut -f1 -d '+')
