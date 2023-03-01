@@ -40,7 +40,7 @@ for table in file insurer code price_metadata rate tin tin_rate_file npi_tin; do
 done
 
 branch_name="centene"
-dolt checkout -b "$branch_name"
+dolt checkout -b "$branch_name" vqbnk0gdv2lhsuvfoc142bg4q8023i1t
 dolt add .
 dolt commit -m "Centene data"
 dolt push -u origin "$branch_name"
