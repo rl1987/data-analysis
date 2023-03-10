@@ -18,7 +18,7 @@ bash /tmp/install.sh
 mkdir /root/data
 
 pushd /root/data || exit
-dolt clone rl1987/quest-v4
+dolt clone rl1987/hospital-prices-allpayers
 popd || exit
 
 mkdir /root/src
@@ -26,7 +26,7 @@ mkdir /root/src
 pushd /root/src || exit
 git clone https://github.com/rl1987/data-analysis.git && cd data-analysis
 git fetch
-git checkout quest_v4_bounty
+git checkout allpayers
 popd || exit
 
 cd /root || exit
