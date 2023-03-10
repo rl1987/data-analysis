@@ -11,23 +11,17 @@ from multiprocessing import Pool
 import multiprocessing
 
 from exceptions import InvalidMRF
-from mrfutils import import_csv_to_set, json_mrf_to_csv
+from mrfutils import index_file_to_csv
 
 import requests
 
 def process_url(url):
     output_dir_path = sys.argv[2]
     script_dir = os.path.dirname(os.path.abspath(__file__))
-
-    code_filter = import_csv_to_set(os.path.join(script_dir, "quest/codes.csv"))
-    npi_filter = import_csv_to_set(os.path.join(script_dir, "quest/npis.csv"))
-
     tries_left = 3
     u = str(uuid.uuid4())
 
     out_dir = os.path.join(output_dir_path, u)
-
-    started_at = datetime.now().timestamp()
 
     try:
         resp = requests.head(url, timeout=5.0)
@@ -40,10 +34,8 @@ def process_url(url):
     while tries_left > 0:
         try:
             print("Starting:", url)
-            json_mrf_to_csv(
+            index_file_to_csv(
                 url=url,
-                npi_filter=npi_filter,
-                code_filter=code_filter,
                 out_dir=out_dir
             )
             print("Done:", url)
@@ -59,16 +51,6 @@ def process_url(url):
             tries_left -= 1
             if os.path.isdir(out_dir):
                 shutil.rmtree(out_dir)
-
-    done_at = datetime.now().timestamp()
-    duration = done_at - started_at
-
-    row = {
-        "url": url,
-        "duration": duration,
-        "size": size,
-        "retries": 3 - tries_left
-    }
 
 def main():
     if len(sys.argv) != 3:
