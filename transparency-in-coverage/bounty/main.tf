@@ -20,7 +20,7 @@ data "digitalocean_ssh_keys" "keys" {
 
 resource "digitalocean_droplet" "server" {
   image     = "debian-11-x64"
-  name      = "dhdb-quest"
+  name      = "dhdb-allpayers"
   region    = "sfo3"
   size      = "s-8vcpu-16gb"
   ssh_keys  = [for key in data.digitalocean_ssh_keys.keys.ssh_keys : key.fingerprint]
