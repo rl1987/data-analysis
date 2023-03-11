@@ -11,17 +11,23 @@ from multiprocessing import Pool
 import multiprocessing
 
 from exceptions import InvalidMRF
-from mrfutils import index_file_to_csv
+from mrfutils import import_csv_to_set, in_network_file_to_csv
 
 import requests
 
 def process_url(url):
     output_dir_path = sys.argv[2]
     script_dir = os.path.dirname(os.path.abspath(__file__))
+
+    code_filter = import_csv_to_set(os.path.join(script_dir, "hpt/70_shoppables.csv"))
+    npi_filter = import_csv_to_set(os.path.join(script_dir, "hpt/hospital_npis.csv"))
+
     tries_left = 3
     u = str(uuid.uuid4())
 
     out_dir = os.path.join(output_dir_path, u)
+
+    started_at = datetime.now().timestamp()
 
     try:
         resp = requests.head(url, timeout=5.0)
@@ -29,13 +35,13 @@ def process_url(url):
         print(e)
         return
 
-    size = resp.headers.get('Content-Length')
-    
     while tries_left > 0:
         try:
             print("Starting:", url)
-            index_file_to_csv(
+            in_network_file_to_csv(
                 url=url,
+                npi_filter=npi_filter,
+                code_filter=code_filter,
                 out_dir=out_dir
             )
             print("Done:", url)
