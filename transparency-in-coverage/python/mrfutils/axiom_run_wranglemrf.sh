@@ -32,14 +32,15 @@ dolt checkout main
 dolt pull upstream 
 dolt push
 
+branch_name="$2"
+dolt checkout -b "$branch_name" n0htpqrud2rf2ft5pjnk0lrcd9bh0br3
+
 for table in file code rate_metadata rate tin tin_rate_file npi_tin; do
     for f in $(ls output_data/$table.*); do 
         time -p nice -n -10 dolt table import -u "$table" --file-type=csv "$f"
     done
 done
 
-branch_name="$2"
-dolt checkout -b "$branch_name" n0htpqrud2rf2ft5pjnk0lrcd9bh0br3
 dolt add .
 dolt commit -m "$branch_name data"
 dolt push -u origin "$branch_name"
