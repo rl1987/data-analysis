@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import sys
+import random
 
 import doltcli as dolt
 import requests
@@ -40,7 +41,7 @@ def main():
         if not url in exclude:
             candidates.append((url, size))
     
-    candidates = sorted(candidates, key=lambda t: t[1], reverse=True)
+    candidates = random.sample(candidates, CHUNK_SIZE)
     
     if len(candidates) > CHUNK_SIZE:
         candidates = candidates[:CHUNK_SIZE]
