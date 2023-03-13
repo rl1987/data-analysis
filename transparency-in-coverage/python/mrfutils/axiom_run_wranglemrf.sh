@@ -33,7 +33,7 @@ dolt pull upstream
 dolt push
 
 branch_name="$2"
-dolt checkout -b "$branch_name" n0htpqrud2rf2ft5pjnk0lrcd9bh0br3
+dolt checkout -b "$branch_name" 5qv1ev5s6v2ag9pfj41k9o7ff3u9cfbd
 
 for table in file code rate_metadata rate tin tin_rate_file npi_tin; do
     for f in $(ls output_data/$table.*); do 
