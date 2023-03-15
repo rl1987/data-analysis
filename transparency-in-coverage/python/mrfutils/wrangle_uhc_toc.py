@@ -7,8 +7,6 @@ import requests
 
 from mrfutils import toc_file_to_csv
 
-CHUNK_SIZE = 128
-
 def main():
     resp = requests.get("https://transparency-in-coverage.uhc.com/api/v1/uhc/blobs/")
 
