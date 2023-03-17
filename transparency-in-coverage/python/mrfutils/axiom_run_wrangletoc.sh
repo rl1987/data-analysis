@@ -19,6 +19,7 @@ axiom-rm -f "axiom-quest*"
 
 cp -R output_data /root/data/hospital-prices-tocfiles
 
+pushd /root/data/hospital-prices-tocfiles
 branch_name="$2"
 dolt checkout -b "$branch_name" 84l77v062ct099sfnm485l59778d93cc
 
