@@ -2,6 +2,7 @@
 
 from urllib.parse import urljoin
 
+import ijson
 import requests
 from lxml import html
 
