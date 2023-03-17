@@ -44,8 +44,8 @@ def main():
             url2 = "https://developers.humana.com/syntheticdata/Resource/DownloadTOCFile?fileName=" + name
             resp2 = requests.head(url2)
             print(resp2.headers.get('Location', ""))
-
-        if len(results) < PER_PAGE:
+        
+        if int(params['iDisplayStart']) == 15000:
             break
 
         params['iDisplayStart'] = str(int(params['iDisplayStart']) + PER_PAGE)
