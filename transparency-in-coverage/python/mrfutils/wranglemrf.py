@@ -10,8 +10,9 @@ import uuid
 from multiprocessing import Pool
 import multiprocessing
 
-from exceptions import InvalidMRF
-from mrfutils import import_csv_to_set, in_network_file_to_csv
+from mrfutils.exceptions import InvalidMRF
+from mrfutils.helpers import import_csv_to_set
+from mrfutils.flatteners import in_network_file_to_csv
 
 import requests
 
@@ -19,8 +20,8 @@ def process_url(url):
     output_dir_path = sys.argv[2]
     script_dir = os.path.dirname(os.path.abspath(__file__))
 
-    code_filter = import_csv_to_set(os.path.join(script_dir, "hpt/70_shoppables.csv"))
-    npi_filter = import_csv_to_set(os.path.join(script_dir, "hpt/hospital_npis.csv"))
+    code_filter = import_csv_to_set(os.path.join(script_dir, "data/hpt/70_shoppables.csv"))
+    npi_filter = import_csv_to_set(os.path.join(script_dir, "data/hpt/hospital_npis.csv"))
 
     tries_left = 3
     u = str(uuid.uuid4())
