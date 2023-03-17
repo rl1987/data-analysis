@@ -9,7 +9,7 @@ curl -L https://github.com/dolthub/dolt/releases/latest/download/install.sh > /t
 dolt config --global --add user.email rimantas@keyspace.lt
 dolt config --global --add user.name "rl1987"
 
-pip3 install --upgrade requests ijson lxml tqdm aiohttp doltcli pandas
+pip3 install --upgrade requests ijson lxml tqdm aiohttp doltcli pandas hatchling
 
 useradd do-agent --no-create-home --system
 curl -sSL https://repos.insights.digitalocean.com/install.sh -o /tmp/install.sh
@@ -31,7 +31,6 @@ git checkout tic
 popd || exit
 
 pushd /root/src/data-analysis/transparency-in-coverage/python/mrfutils || exit
-pip3 install hatchling
 pip3 install .
 popd || exit
 
