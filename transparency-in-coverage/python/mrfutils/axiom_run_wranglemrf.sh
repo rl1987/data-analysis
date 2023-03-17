@@ -17,8 +17,8 @@ axiom-fleet axiom-quest -i $1
 
 axiom-exec --fleet axiom-quest "sudo apt-get remove -y python3.8 && sudo apt-get install -y python3.9 python3.9-distutils"
 axiom-exec --fleet axiom-quest "wget https://bootstrap.pypa.io/get-pip.py && python3.9 get-pip.py"
-axiom-exec --fleet axiom-quest "pip3 install --upgrade requests ijson lxml tqdm aiohttp"
-axiom-exec --fleet axiom-quest "git clone https://github.com/rl1987/data-analysis.git && cd data-analysis/ && git fetch && git checkout allpayers"
+axiom-exec --fleet axiom-quest "pip3 install --upgrade requests ijson lxml tqdm aiohttp hatchling"
+axiom-exec --fleet axiom-quest "git clone https://github.com/rl1987/data-analysis.git && cd data-analysis/transparency-in-coverage/python/mrfutils && pip3 install ."
 
 axiom-scan urls.txt -m wranglemrf -o raw_output_data
 axiom-rm -f "axiom-quest*"

@@ -11,7 +11,8 @@ from multiprocessing import Pool
 import multiprocessing
 
 from exceptions import InvalidMRF
-from mrfutils import import_csv_to_set, in_network_file_to_csv
+from mrfutils.helpers import import_csv_to_set
+from mrfutils.flatteners import in_network_file_to_csv
 
 import requests
 

@@ -5,7 +5,7 @@ from urllib.parse import urljoin
 import requests
 from lxml import html
 
-from mrfutils import toc_file_to_csv
+from mrfutils.flatteners import toc_file_to_csv
 
 def main():
     resp = requests.get("https://www.centene.com/price-transparency-files.html")
