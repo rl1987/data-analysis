@@ -10,7 +10,7 @@ import uuid
 from multiprocessing import Pool
 import multiprocessing
 
-from exceptions import InvalidMRF
+from mrfutils.exceptions import InvalidMRF
 from mrfutils.helpers import import_csv_to_set
 from mrfutils.flatteners import in_network_file_to_csv
 
