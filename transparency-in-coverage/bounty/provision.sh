@@ -19,6 +19,7 @@ mkdir /root/data
 
 pushd /root/data || exit
 dolt clone rl1987/hospital-prices-allpayers
+dolt clone rl1987/hospital-prices-tocfiles
 popd || exit
 
 mkdir /root/src
@@ -26,7 +27,12 @@ mkdir /root/src
 pushd /root/src || exit
 git clone https://github.com/rl1987/data-analysis.git && cd data-analysis
 git fetch
-git checkout allpayers
+git checkout tic
+popd || exit
+
+pushd /root/src/data-analysis/transparency-in-coverage/python/mrfutils || exit
+pip3 install hatchling
+pip3 install .
 popd || exit
 
 cd /root || exit
