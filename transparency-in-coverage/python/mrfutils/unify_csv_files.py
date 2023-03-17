@@ -30,7 +30,7 @@ def main():
     raw_output_dir = sys.argv[1]
     clean_output_dir = sys.argv[2]
 
-    for table_name in ["code", "file", "npi_tin", "rate", "rate_metadata", "tin", "tin_rate_file"]:
+    for table_name in ["file", "code", "rate_metadata", "rate", "tin", "tin_rate_file", "npi_tin"]:
         print("Unifying: {}".format(table_name))
         unify(raw_output_dir, clean_output_dir, table_name)
 
