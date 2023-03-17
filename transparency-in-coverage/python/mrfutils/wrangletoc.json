@@ -1,0 +1,4 @@
+[{
+    "command": "python3.9 ~/data-analysis/transparency-in-coverage/python/mrfutils/wrangletoc.py input output",
+    "ext": "dir"
+}]
