@@ -13,7 +13,7 @@ axiom-exec --fleet axiom-quest "wget https://bootstrap.pypa.io/get-pip.py && pyt
 axiom-exec --fleet axiom-quest "pip3 install --upgrade requests ijson lxml tqdm aiohttp hatchling"
 axiom-exec --fleet axiom-quest "git clone https://github.com/rl1987/data-analysis.git && cd data-analysis/transparency-in-coverage/python/mrfutils && pip3 install ."
 
-axiom-scan urls.txt -m wranglemrf -o output_data
+axiom-scan urls.txt -m wrangletoc -o output_data
 axiom-rm -f "axiom-quest*"
 
 cp -R output_data /root/data/hospital-prices-tocfiles
@@ -28,7 +28,7 @@ for table in toc toc_plan toc_file toc_plan_file; do
 done
 
 dolt add .
-dolt commit -m "$branch_name data"
+dolt commit -m "$branch_name"
 dolt push -u origin "$branch_name"
 dolt checkout main
 rm -rf output_data
