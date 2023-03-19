@@ -7,14 +7,52 @@ import os
 import sys
 import shutil
 import uuid
+from urllib.parse import urlparse
+import tempfile
 from multiprocessing import Pool
 import multiprocessing
+import zipfile
 
 from mrfutils.exceptions import InvalidMRF
 from mrfutils.helpers import import_csv_to_set
 from mrfutils.flatteners import in_network_file_to_csv
 
 import requests
+
+def wrangle_mrf_zip(url, npi_filter, code_filter, out_dir):
+    zip_file_name = urlparse(url).path.split('/')[-1]
+    
+    zip_file_path = os.path.join("/tmp", zip_file_name)
+    
+    tmp_f = open(zip_file_path, "wb")
+
+    r = requests.get(url, stream=True)
+    r.raise_for_status()
+    for chunk in r.iter_content(chunk_size=8192):
+        tmp_f.write(chunk)
+
+    tmp_f.close()
+
+    zip_f = zipfile.ZipFile(zip_file_path, 'r')
+
+    json_filename = zip_f.namelist()[0]
+    json_file_path = zip_f.extract(json_filename, "/tmp")
+    print(json_file_path)
+
+    in_network_file_to_csv(file=json_file_path, url=url,
+                           npi_filter=npi_filter, code_filter=code_filter,
+                           out_dir=out_dir)
+
+    os.unlink(zip_file_path)
+    os.unlink(json_file_path)
+
+def wrangle_mrf(url, npi_filter, code_filter, out_dir):
+    if url.endswith(".zip"):
+        wrangle_mrf_zip(url, npi_filter, code_filter, out_dir)
+        return
+
+    in_network_file_to_csv(url=url, npi_filter=npi_filter, 
+                           code_filter=code_filter, out_dir=out_dir)
 
 def process_url(url):
     output_dir_path = sys.argv[2]
@@ -39,12 +77,7 @@ def process_url(url):
     while tries_left > 0:
         try:
             print("Starting:", url)
-            in_network_file_to_csv(
-                url=url,
-                npi_filter=npi_filter,
-                code_filter=code_filter,
-                out_dir=out_dir
-            )
+            wrangle_mrf(url, npi_filter, code_filter, out_dir)
             print("Done:", url)
             break
         except InvalidMRF:
